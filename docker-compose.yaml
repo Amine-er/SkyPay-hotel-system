@@ -70,8 +70,8 @@ services:
     networks:
       - SkyPay-net
 
-  payment-service:
-    build: modules/payment-service
+  payment-service-mock:
+    build: modules/payment-service-mock
     ports:
       - "8084:8084"
     environment:

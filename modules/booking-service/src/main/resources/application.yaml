@@ -2,6 +2,15 @@ spring:
   application:
     name: booking-service
 
+  data:
+    mongodb:
+      host: mongo
+      port: 27017
+      database: bookingdb
+      username: bookinguser
+      password: bookingpass
+      authentication-database: bookingdb
+
 server:
   port: 8083
 

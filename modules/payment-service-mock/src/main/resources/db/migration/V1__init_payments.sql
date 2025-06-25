@@ -3,7 +3,7 @@ INSERT INTO payments (
 ) VALUES
     (
     1,
-    'Alice Example',
+    'Mohamed Amine',
     '4111111111111111',
     '2028-12-31',
     '123',
@@ -11,7 +11,7 @@ INSERT INTO payments (
     ),
     (
     2,
-    'Bob Example',
+    'Ahmed yasser',
     '5500000000000004',
     '2029-11-30',
     '456',

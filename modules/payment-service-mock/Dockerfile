@@ -2,7 +2,7 @@ FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-COPY build/libs/payment-service-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/payment-service-mock-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8084
 
