@@ -1,4 +1,5 @@
 rootProject.name = 'SkyPay-hotel-system'
 include 'modules:api-gateway'
+include 'modules:user-service'
 include 'infrastructures:eureka-server'
 
