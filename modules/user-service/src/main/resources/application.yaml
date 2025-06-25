@@ -5,7 +5,7 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-    schemas: schemaUser
+    schemas: schemauser
     locations: classpath:db/migration
 
   datasource:
@@ -20,7 +20,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        default_schema: schemaUser
+        default_schema: schemauser
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:

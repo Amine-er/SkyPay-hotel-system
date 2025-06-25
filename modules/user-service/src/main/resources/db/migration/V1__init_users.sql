@@ -1,5 +1,5 @@
 INSERT INTO
-    schemauser.users (first_name, last_name, email, phone, address, registered_at)
+    schemauser.users (first_name, last_name, email, phone, address)
 VALUES
-    ('Alice', 'Smith', 'alice@example.com', '1234567890', '123 Main St', NOW()),
-    ('Bob', 'Johnson', 'bob@example.com', '9876543210', '456 Oak Ave', NOW());
+    ('Alice', 'Smith', 'alice@example.com', '1234567890', '123 Main St'),
+    ('Bob', 'Johnson', 'bob@example.com', '9876543210', '456 Oak Ave');
