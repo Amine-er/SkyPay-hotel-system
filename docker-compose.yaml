@@ -1,0 +1,84 @@
+services:
+  mongo:
+    image: mongo:5.0.27
+    container_name: mongo-skypay
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - ./api-common/docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    networks:
+      - SkyPay-net
+
+  postgres:
+    image: postgres:15.13
+    container_name: postgres-skypay
+    environment:
+      POSTGRES_DB: shared_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./api-common/docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - SkyPay-net
+
+  eureka-server:
+    build: infrastructures/eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - SkyPay-net
+
+  api-gateway:
+    build: modules/api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - SkyPay-net
+
+  user-service:
+    build: modules/user-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - SkyPay-net
+
+  room-service:
+    build: modules/room-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - SkyPay-net
+
+  booking-service:
+    build: modules/booking-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - SkyPay-net
+
+  payment-service:
+    build: modules/payment-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - SkyPay-net
+
+networks:
+  SkyPay-net:
+    driver: bridge
