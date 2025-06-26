@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "rooms", schema = "schemaroom")
@@ -18,7 +19,7 @@ public class Room {
 
     private String description;
 
-    private String imageUrl;
+    private List<String> imageUrl;
 
     private BigDecimal price;
 }
