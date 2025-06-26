@@ -35,13 +35,13 @@ public class PaymentService {
             if (payment.getBalance().compareTo(paymentDTO.getAmount()) < 0) {
                 log.warn("Insufficient funds for userId: {}. Current Balance: {}, Requested Amount: {}",
                         paymentDTO.getUserId(), payment.getBalance(), paymentDTO.getAmount());
-                return true; // Insufficient funds
+                return true; // Insufficient balance
             }
 
             payment.setBalance(payment.getBalance().subtract(paymentDTO.getAmount()));
             paymentRepository.save(payment);
 
-            return false; // // Sufficient funds
+            return false; // // Sufficient balance
         } else {
             log.error("User with ID {} not found.", paymentDTO.getUserId());
             throw new IllegalArgumentException("User with ID " + paymentDTO.getUserId() + " not found.");

@@ -2,6 +2,7 @@ package ma.errabi.room.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import ma.errabi.room.RoomType;
 
 import java.math.BigDecimal;
 import java.util.List;
