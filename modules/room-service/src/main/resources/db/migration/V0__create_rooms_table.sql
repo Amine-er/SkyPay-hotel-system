@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS schemaroom;
+CREATE SCHEMA IF NOT EXISTS schema_room;
 
-CREATE TABLE IF NOT EXISTS schemaroom.rooms (
+CREATE TABLE IF NOT EXISTS schema_room.rooms (
       id BIGSERIAL PRIMARY KEY,
       type VARCHAR(50) NOT NULL,
       description TEXT,

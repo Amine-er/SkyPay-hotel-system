@@ -7,7 +7,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpass
-      MONGO_INITDB_DATABASE: admin
+      MONGO_INITDB_DATABASE: bookingdb
     volumes:
       - ./api-common/docker/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
     networks:
@@ -17,7 +17,7 @@ services:
     image: postgres:15.13
     container_name: postgres-skypay
     environment:
-      POSTGRES_DB: shared_db
+      POSTGRES_DB: hotel
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:

@@ -1,5 +1,5 @@
 INSERT INTO
-    schemaroom.rooms (type, description, image_url, price)
+    schema_room.rooms (type, description, image_url, price)
 VALUES
     ('STANDARD_SUITE',
      'Cozy standard suite with bed, work desk, and city view.',

@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS schemauser;
+CREATE SCHEMA IF NOT EXISTS schema_user;
 
-CREATE TABLE schemauser.users (
+CREATE TABLE IF NOT EXISTS schema_user.users (
         id SERIAL PRIMARY KEY,
         first_name VARCHAR(100),
         last_name VARCHAR(100),

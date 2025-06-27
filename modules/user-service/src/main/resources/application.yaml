@@ -5,11 +5,11 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
-    schemas: schemauser
+    schemas: schema_user
     locations: classpath:db/migration
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/shared_db
+    url: jdbc:postgresql://localhost:5432/hotel
     username: user
     password: password
     driver-class-name: org.postgresql.Driver
@@ -20,7 +20,7 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        default_schema: schemauser
+        default_schema: schema_user
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
