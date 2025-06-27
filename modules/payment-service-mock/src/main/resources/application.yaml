@@ -28,9 +28,13 @@ server:
   forward-headers-strategy: framework
 
 springdoc:
-  swagger-ui.path: /openapi/swagger-ui.html
-  api-docs.path: /openapi/v3/api-docs
-  pathsToMatch: /**
+  api-docs:
+    enabled: true
+    path: /api/payments/openapi/v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /api/payments/openapi/swagger-ui.html
+
 
 management:
   endpoints:

@@ -13,48 +13,24 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/users/**
-        - id: user-service-docs
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/api/users/openapi/**
-          filters:
-            - RewritePath=/api/users/openapi/(?<segment>/.*), /openapi/$\{segment}
 
         # Room Service
         - id: room-service
           uri: lb://ROOM-SERVICE
           predicates:
             - Path=/api/rooms/**
-        - id: room-service-docs
-          uri: lb://ROOM-SERVICE
-          predicates:
-            - Path=/api/rooms/openapi/**
-          filters:
-            - RewritePath=/api/rooms/openapi/(?<segment>/.*), /openapi/$\{segment}
 
         # Booking Service
         - id: booking-service
           uri: lb://BOOKING-SERVICE
           predicates:
             - Path=/api/bookings/**
-        - id: booking-service-docs
-          uri: lb://BOOKING-SERVICE
-          predicates:
-            - Path=/api/bookings/openapi/**
-          filters:
-            - RewritePath=/api/bookings/openapi/(?<segment>/.*), /openapi/$\{segment}
 
         # Payment Service
         - id: payment-service-mock
           uri: lb://PAYMENT-SERVICE-MOCK
           predicates:
             - Path=/api/payments/**
-        - id: payment-service-docs
-          uri: lb://PAYMENT-SERVICE-MOCK
-          predicates:
-            - Path=/api/payments/openapi/**
-          filters:
-            - RewritePath=/api/payments/openapi/(?<segment>/.*), /openapi/$\{segment}
 
     loadbalancer:
           enabled: true

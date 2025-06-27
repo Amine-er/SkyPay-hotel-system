@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/booking")
+@RequestMapping("/api/bookings")
 public class BookingController {
     private final BookingService bookingService;
 
