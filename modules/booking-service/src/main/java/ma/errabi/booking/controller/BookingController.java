@@ -1,5 +1,7 @@
 package ma.errabi.booking.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import ma.errabi.booking.service.BookingService;
 import ma.errabi.payment.PaymentDTO;
@@ -15,6 +17,9 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping("/make-reservation")
+    @Operation(summary = "Make a reservation for a room")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Payment details")
+    @ApiResponse(responseCode = "200", description = "Successfully made reservation")
     public UUID makeReservation(
             @RequestParam Long roomId,
             @RequestParam LocalDate startDate,

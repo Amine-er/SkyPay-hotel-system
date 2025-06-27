@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
 
+    @Transactional(readOnly = true)
     public Page<RoomDTO> getAllRooms(int page, int size) {
         log.info("Fetching all rooms with pagination - page: {}, size: {}", page, size);
         try {
@@ -30,6 +32,7 @@ public class RoomService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Optional<RoomDTO> getRoomById(Long id) {
         log.info("Fetching room details by ID: {}", id);
         try {

@@ -1,5 +1,7 @@
 package ma.errabi.room.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import ma.errabi.room.RoomDTO;
 import ma.errabi.room.service.RoomService;
@@ -16,6 +18,9 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping
+    @Operation(summary = "Get all rooms")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Pagination parameters")
+    @ApiResponse(responseCode = "200", description = "Successfully fetched all rooms")
     public ResponseEntity<Page<RoomDTO>> getAllRooms(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -24,6 +29,9 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get room by ID")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Room ID")
+    @ApiResponse(responseCode = "200", description = "Successfully fetched room by ID")
     public ResponseEntity<RoomDTO> getRoomById(@PathVariable Long id) {
         Optional<RoomDTO> room = roomService.getRoomById(id);
         return room.map(ResponseEntity::ok)

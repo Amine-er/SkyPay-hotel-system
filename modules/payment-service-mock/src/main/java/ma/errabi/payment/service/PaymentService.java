@@ -7,6 +7,7 @@ import ma.errabi.payment.domain.Payment;
 import ma.errabi.payment.mapper.PaymentMapper;
 import ma.errabi.payment.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
 
+    @Transactional
     public boolean checkAndDeductBalance(PaymentDTO paymentDTO) {
         log.info("Received check balance request for userId: {}, amount: {}", paymentDTO.getUserId(), paymentDTO.getAmount());
 
