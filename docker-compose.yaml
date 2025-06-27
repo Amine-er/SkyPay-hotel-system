@@ -1,4 +1,12 @@
 services:
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin-skypay
+    ports:
+      - "9411:9411"
+    networks:
+      - SkyPay-net
+
   mongo:
     image: mongo:5.0.27
     container_name: mongo-skypay

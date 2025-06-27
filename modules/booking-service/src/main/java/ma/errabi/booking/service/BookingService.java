@@ -9,75 +9,77 @@ import ma.errabi.booking.repository.BookingRepository;
 import ma.errabi.payment.PaymentDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class BookingService {
+
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
-    private final RestTemplate restTemplate;
+    private final WebClient.Builder webClientBuilder;
+
     @Value("${payment.service.url}")
     private String paymentServiceUrl;
 
-    @Transactional
-    public UUID makeReservation(Long roomId, LocalDate startDate, LocalDate endDate, PaymentDTO paymentDTO) {
-        log.info("Initiating reservation for roomId: {}, startDate: {}, endDate: {}, userId: {}",
+    public Mono<UUID> makeReservation(Long roomId, LocalDate startDate, LocalDate endDate, PaymentDTO paymentDTO) {
+        log.info("Initiating reservation for roomId={}, startDate={}, endDate={}, userId={}",
                 roomId, startDate, endDate, paymentDTO.getUserId());
 
-        if (!isRoomAvailable(roomId, startDate, endDate)) {
-            log.warn("Room with ID {} is not available for the dates: {} - {}", roomId, startDate, endDate);
-            throw new IllegalArgumentException("Room is not available for the given dates.");
-        }
+        return checkRoomAvailability(roomId, startDate, endDate)
+                .flatMap(available -> validateAvailability(available, roomId, startDate, endDate))
+                .flatMap(valid -> validateAndCharge(paymentDTO))
+                .flatMap(valid -> saveBooking(paymentDTO, roomId, startDate, endDate));
+    }
 
-        if (!checkAndDeductBalance(paymentDTO)) {
-            log.warn("Payment validation failed or insufficient balance for userId: {}", paymentDTO.getUserId());
-            throw new IllegalArgumentException("Insufficient balance or payment validation failed.");
-        }
+    private Mono<Boolean> checkRoomAvailability(Long roomId, LocalDate start, LocalDate end) {
+        return bookingRepository
+                .findByRoomIdAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(roomId, end, start)
+                .hasElement()
+                .map(found -> !found);
+    }
 
-        UUID bookingReference = UUID.randomUUID();
-        BookingDTO bookingDTO = BookingDTO.builder()
+    private Mono<Boolean> validateAndCharge(PaymentDTO paymentDTO) {
+        return webClientBuilder.build()
+                .post()
+                .uri(paymentServiceUrl)
+                .bodyValue(paymentDTO)
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .onErrorReturn(false)
+                .flatMap(success -> {
+                    if (!success) {
+                        log.warn("Payment failed or insufficient balance for userId={}", paymentDTO.getUserId());
+                        return Mono.error(new IllegalArgumentException("Payment failed or insufficient balance."));
+                    }
+                    return Mono.just(true);
+                });
+    }
+
+    private Mono<UUID> saveBooking(PaymentDTO paymentDTO, Long roomId, LocalDate start, LocalDate end) {
+        UUID reference = UUID.randomUUID();
+        BookingDTO dto = BookingDTO.builder()
                 .userId(paymentDTO.getUserId())
                 .roomId(roomId)
-                .startTime(startDate)
-                .endTime(endDate)
-                .reference(bookingReference)
+                .startTime(start)
+                .endTime(end)
+                .reference(reference)
                 .build();
 
-        saveBooking(bookingDTO);
-        log.info("Successfully saved booking. Booking reference: {}", bookingReference);
-
-        return bookingReference;
+        Booking entity = bookingMapper.toEntity(dto);
+        return bookingRepository.save(entity).thenReturn(reference);
     }
 
-    private boolean isRoomAvailable(Long roomId, LocalDate startDate, LocalDate endDate) {
-        log.debug("Checking room availability for roomId: {}, startDate: {}, endDate: {}",
-                roomId, startDate, endDate);
-
-        Optional<Booking> existingBooking = bookingRepository
-                .findByRoomIdAndStartTimeLessThanEqualAndEndTimeGreaterThanEqual(
-                        roomId, endDate, startDate);
-        return !existingBooking.isPresent();
-    }
-
-    private boolean checkAndDeductBalance(PaymentDTO paymentDTO) {
-        log.debug("Initiating payment validation for userId: {}", paymentDTO.getUserId());
-
-        Boolean response = restTemplate.postForObject(paymentServiceUrl, paymentDTO, Boolean.class);
-        return Boolean.TRUE.equals(response);
-    }
-
-    private void saveBooking(BookingDTO bookingDTO) {
-        log.debug("Saving booking for roomId: {}, userId: {}, reference: {}",
-                bookingDTO.getRoomId(), bookingDTO.getUserId(), bookingDTO.getReference());
-
-        Booking bookingEntity = bookingMapper.toEntity(bookingDTO);
-        bookingRepository.save(bookingEntity);
+    private Mono<Boolean> validateAvailability(boolean available, Long roomId, LocalDate start, LocalDate end) {
+        if (!available) {
+            log.warn("Room {} not available from {} to {}", roomId, start, end);
+            return Mono.error(new IllegalArgumentException("Room is not available for the given dates."));
+        }
+        return Mono.just(true);
     }
 }
