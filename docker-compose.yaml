@@ -42,6 +42,15 @@ services:
     networks:
       - SkyPay-net
 
+  spring-admin-server:
+    build: infrastructures/spring-admin-server
+    ports:
+      - "7070:7070"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - SkyPay-net
+
   api-gateway:
     build: modules/api-gateway
     ports:

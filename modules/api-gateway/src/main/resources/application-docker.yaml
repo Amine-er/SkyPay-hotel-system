@@ -8,24 +8,52 @@ spring:
         locator:
           enabled: true
       routes:
+        # User Service
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/api/users/**
+
+        # Room Service
         - id: room-service
           uri: lb://ROOM-SERVICE
           predicates:
             - Path=/api/rooms/**
+
+        # Booking Service
         - id: booking-service
           uri: lb://BOOKING-SERVICE
           predicates:
             - Path=/api/bookings/**
-        - id: payment-service
-          uri: lb://PAYMENT-SERVICE
+
+        # Payment Service
+        - id: payment-service-mock
+          uri: lb://PAYMENT-SERVICE-MOCK
           predicates:
             - Path=/api/payments/**
+
     loadbalancer:
-          enabled: true
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.sleuth: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
 
 server:
   port: 8080

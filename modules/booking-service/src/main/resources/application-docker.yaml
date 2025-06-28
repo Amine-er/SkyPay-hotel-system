@@ -2,8 +2,49 @@ spring:
   application:
     name: booking-service
 
+  data:
+    mongodb:
+      host: mongo
+      port: 27017
+      database: bookingdb
+      username: bookinguser
+      password: bookingpass
+
 server:
   port: 8083
+  forward-headers-strategy: framework
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api/bookings/openapi/v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /api/bookings/openapi/swagger-ui.html
+
+logging:
+  level:
+    org.springframework.cloud.sleuth: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
+
+payment:
+  service:
+    url: http://PAYMENT-SERVICE-MOCK/api/payments/check-balance
 
 eureka:
   client:
