@@ -6,8 +6,12 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/Amine-er/hotel-system-config/tree/docker
+          uri: https://github.com/Amine-er/hotel-system-config.git
           default-label: docker
+
+  config:
+    activate:
+      on-profile: docker
 
 server:
   port: 8888
