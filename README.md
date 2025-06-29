@@ -70,6 +70,23 @@ The first thing to do is to open **git bash** command line, and then simply you 
 > git checkout staging
 > docker-compose up
 ```
+### Mock Payment Strategy
+
+To simulate real-world payment processing in a test environment, this project uses a mock payment service. Instead of integrating with a third-party payment gateway (such as Stripe or PayPal), we use a predefined mock user with valid-looking card details and an initial balance to validate payment transactions.
+
+| Field         | Value                 |
+| ------------- | --------------------- |
+| ID            | `1`                   |
+| Full Name     | `Mohamed Amine`       |
+| Card Number   | `4111 1111 1111 1111` |
+| Expiry Date   | `2028-12-31`          |
+| CVV           | `123`                 |
+| Balance (MAD) | `25000.00`            |
+
+![UI-1](https://github.com/user-attachments/assets/167030fc-27c7-43d0-9e14-3bfe7079c234)
+
+![UI-2](https://github.com/user-attachments/assets/e845b354-1713-499c-b0c1-98d5ca3e490c)
+
 ### Next version :
 In the next version I'll continue the dev with the following fixes :
 -  Add Unit test using JUnit and mockito
