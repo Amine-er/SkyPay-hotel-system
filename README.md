@@ -62,8 +62,8 @@ You can check the dashboard of spring admin for metrics and logs at this URL [ht
 
 ![spring-admin](https://github.com/user-attachments/assets/b5b27205-c6ab-4274-8e83-ad5dbee2ec9e)
 
-### API Documentation – Swagger UI
-The backend microservices are documented using Swagger for easy exploration and testing of API endpoints.
+### API Documentation – OpenAPI
+The backend microservices are documented using OpenAPI for easy exploration and testing of API endpoints.
 
 ![swagger](https://github.com/user-attachments/assets/960e095b-a4af-4501-ba5a-bf95ac0d04e4)
 
@@ -74,6 +74,7 @@ All application services, including frontend and backend microservices, are cont
 Each image is tagged as latest and structured for seamless deployment using Docker Compose:
 ```
 med29/skypay-hotel-ui – React frontend
+med29/skypay-hotel-api-gateway
 med29/skypay-hotel-user-service
 med29/skypay-hotel-room-service
 med29/skypay-hotel-booking-service
