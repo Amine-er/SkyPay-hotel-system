@@ -49,15 +49,40 @@ docker-compose up
 
 ### Access Service Discovery Server (Eureka)
 If you would like to access the Eureka service discovery point to this URL [http://localhosts:8761/eureka/web](https://localhost:8761/eureka/web) to see all the services registered inside it.
+
 ![eureka](https://github.com/user-attachments/assets/cb49509d-9fd5-4d8b-8bbe-95afc36f77bc)
 
 ### Access Zipkin
 You can manually check traceId flow between microservices using zipkin UI at this URL [http://localhosts:9411/zipkin](https://localhost:9411/zipkin)
+
 ![zipkin](https://github.com/user-attachments/assets/eaa6a05f-6cf2-42b7-aada-be522d043ed0)
 
 ### Access Spring boot admin
 You can check the dashboard of spring admin for metrics and logs at this URL [http://localhosts:7070/admin](https://localhost:7070/admin)
+
 ![spring-admin](https://github.com/user-attachments/assets/b5b27205-c6ab-4274-8e83-ad5dbee2ec9e)
+
+### API Documentation – Swagger UI
+The backend microservices are documented using Swagger for easy exploration and testing of API endpoints.
+
+![swagger](https://github.com/user-attachments/assets/960e095b-a4af-4501-ba5a-bf95ac0d04e4)
+
+### Docker Hub Repository
+All application services, including frontend and backend microservices, are containerized and available publicly on Docker Hub:
+[https://hub.docker.com/u/med29](https://hub.docker.com/u/med29)
+
+Each image is tagged as latest and structured for seamless deployment using Docker Compose:
+```
+med29/skypay-hotel-ui – React frontend
+med29/skypay-hotel-user-service
+med29/skypay-hotel-room-service
+med29/skypay-hotel-booking-service
+med29/skypay-hotel-payment-service-mock
+med29/skypay-hotel-eureka-server
+med29/skypay-hotel-config-server
+med29/skypay-hotel-spring-admin-server
+```
+These images are integrated into the Docker Compose setup to enable full local deployment and testing with a single command.
 
 ## Testing Skypay Hotel Project
 
@@ -85,6 +110,8 @@ To simulate real-world payment processing in a test environment, this project us
 
 ### Frontend UI
 Below are some UI previews from the hotel reservation system's frontend, built with React,Vite, Tailwind CSS, and shadcn/ui. The user interface is designed to be clean, responsive, and user-friendly.
+
+Repo : [https://github.com/Amine-er/SkyPay-hotel-system-ui](https://github.com/Amine-er/SkyPay-hotel-system-ui)
 
 - Browse and filter available hotel rooms.
   
