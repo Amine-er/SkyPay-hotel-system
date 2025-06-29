@@ -11,7 +11,7 @@ A Full-Stack Hotel Management System built with Spring Boot Microservices and a 
      -  Spring config server and profile for config management
      -  Micrometer and zipkin for distributed tracing
      -  Springboot admin for monitoring
-     -  Rest and GRPC for synchron communication between microservices
+     -  Rest for synchron communication between microservices
      -  Database migration with flyway and postgres
      -  Reactive programming with webflux spring data reactive and mongodb
      -  Deployment docker and docker-compose
@@ -83,12 +83,20 @@ To simulate real-world payment processing in a test environment, this project us
 | CVV           | `123`                 |
 | Balance (MAD) | `25000.00`            |
 
+### Frontend UI
+Below are some UI previews from the hotel reservation system's frontend, built with React,Vite, Tailwind CSS, and shadcn/ui. The user interface is designed to be clean, responsive, and user-friendly.
+
+- Browse and filter available hotel rooms.
+  
 ![UI-1](https://github.com/user-attachments/assets/167030fc-27c7-43d0-9e14-3bfe7079c234)
 
+- Confirmation popup with reservation reference after a successful payment.
+  
 ![UI-2](https://github.com/user-attachments/assets/e845b354-1713-499c-b0c1-98d5ca3e490c)
 
 ### Next version :
 In the next version I'll continue the dev with the following fixes :
+-  GRPC for synchron communication between microservices
 -  Add Unit test using JUnit and mockito
 -  Adding keycloak for login using JWT
 -  Send email for success reservation with the reference ID
