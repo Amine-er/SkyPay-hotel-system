@@ -35,15 +35,25 @@ services:
     networks:
       - SkyPay-net
 
+  frontend:
+    image: med29/skypay-hotel-ui:latest
+    container_name: frontend-skypay
+    ports:
+      - "3000:3000"
+    networks:
+      - SkyPay-net
+
   eureka-server:
-    build: infrastructures/eureka-server
+    image: med29/skypay-hotel-eureka-server:latest
+    container_name: eureka-server-skypay
     ports:
       - "8761:8761"
     networks:
       - SkyPay-net
 
   config-server:
-    build: infrastructures/config-server
+    image: med29/skypay-hotel-config-server:latest
+    container_name: config-server-skypay
     ports:
       - "8888:8888"
     environment:
@@ -52,7 +62,8 @@ services:
       - SkyPay-net
 
   spring-admin-server:
-    build: infrastructures/spring-admin-server
+    image: med29/skypay-hotel-spring-admin-server:latest
+    container_name: admin-server-skypay
     ports:
       - "7070:7070"
     environment:
@@ -61,7 +72,8 @@ services:
       - SkyPay-net
 
   api-gateway:
-    build: modules/api-gateway
+    image: med29/skypay-hotel-api-gateway:latest
+    container_name: api-gateway-skypay
     ports:
       - "8080:8080"
     environment:
@@ -70,7 +82,8 @@ services:
       - SkyPay-net
 
   user-service:
-    build: modules/user-service
+    image: med29/skypay-hotel-user-service:latest
+    container_name: user-service-skypay
     ports:
       - "8081:8081"
     environment:
@@ -79,7 +92,8 @@ services:
       - SkyPay-net
 
   room-service:
-    build: modules/room-service
+    image: med29/skypay-hotel-room-service:latest
+    container_name: room-service-skypay
     ports:
       - "8082:8082"
     environment:
@@ -88,7 +102,8 @@ services:
       - SkyPay-net
 
   booking-service:
-    build: modules/booking-service
+    image: med29/skypay-hotel-booking-service:latest
+    container_name: booking-service-skypay
     ports:
       - "8083:8083"
     environment:
@@ -97,7 +112,8 @@ services:
       - SkyPay-net
 
   payment-service-mock:
-    build: modules/payment-service-mock
+    image: med29/skypay-hotel-payment-service-mock:latest
+    container_name: payment-service-skypay
     ports:
       - "8084:8084"
     environment:
