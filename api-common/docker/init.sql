@@ -1,2 +1,3 @@
 CREATE SCHEMA IF NOT EXISTS schema_user;
 CREATE SCHEMA IF NOT EXISTS schema_room;
+CREATE SCHEMA IF NOT EXISTS schema_keycloak;

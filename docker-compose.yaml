@@ -35,6 +35,30 @@ services:
     networks:
       - SkyPay-net
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    container_name: keycloak-skypay
+    command: start-dev --http-port=9090
+    environment:
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: hotel
+      KC_DB_SCHEMA: schema_keycloak
+      KC_DB_USERNAME: user
+      KC_DB_PASSWORD: password
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "9090:9090"
+    volumes:
+      - keycloak-db:/opt/keycloak/db
+    depends_on:
+      - postgres
+    networks:
+      - SkyPay-net
+
   eureka-server:
     build: infrastructures/eureka-server
     ports:
@@ -108,3 +132,6 @@ services:
 networks:
   SkyPay-net:
     driver: bridge
+
+volumes:
+  keycloak-db:
