@@ -3,8 +3,6 @@ package ma.errabi.user.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "users", schema = "schema_user")
 @Data
