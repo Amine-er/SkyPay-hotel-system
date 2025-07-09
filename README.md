@@ -36,7 +36,8 @@ SkyPay-hotel-system --> Parent folder.
   |- api --> api shared between services 
 |- docker-compose.yml --> contains all services
 ```
-![conception](https://github.com/user-attachments/assets/f1ec2a1d-8ef6-4ac7-a4db-d15d779ee926)
+![conception3](https://github.com/user-attachments/assets/63fd66c8-7b7b-4ba2-b621-258aeade41c9)
+
 
 Now, as we have learned about different system components, then let's start.
 
