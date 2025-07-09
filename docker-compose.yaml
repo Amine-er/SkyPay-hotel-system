@@ -59,6 +59,15 @@ services:
     networks:
       - SkyPay-net
 
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog-skypay
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - SkyPay-net
+
   eureka-server:
     build: infrastructures/eureka-server
     ports:

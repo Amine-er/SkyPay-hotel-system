@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @Builder
 public class PaymentDTO {
     private Long userId;
+    private String email;
     private String cardNumber;
     private LocalDate expiryDate;
     private String cvv;
     private BigDecimal amount;
-
 }

@@ -23,6 +23,7 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
     private final WebClient.Builder webClientBuilder;
+    private final EmailService emailService;
 
     @Value("${payment.service.url}")
     private String paymentServiceUrl;
@@ -72,7 +73,9 @@ public class BookingService {
                 .build();
 
         Booking entity = bookingMapper.toEntity(dto);
-        return bookingRepository.save(entity).thenReturn(reference);
+        return bookingRepository.save(entity)
+                .doOnSuccess(saved -> emailService.sendReservationConfirmation(paymentDTO.getEmail(), reference))
+                .thenReturn(reference);
     }
 
     private Mono<Boolean> validateAvailability(boolean available, Long roomId, LocalDate start, LocalDate end) {

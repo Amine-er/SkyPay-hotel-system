@@ -9,6 +9,7 @@ import ma.errabi.payment.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -46,7 +47,7 @@ public class PaymentService {
         }
     }
 
-    private boolean processPayment(Payment payment, java.math.BigDecimal amount) {
+    private boolean processPayment(Payment payment, BigDecimal amount) {
         if (payment.getBalance().compareTo(amount) < 0) {
             log.warn("Insufficient funds for userId: {}. Current Balance: {}, Requested Amount: {}",
                     payment.getUserId(), payment.getBalance(), amount);
