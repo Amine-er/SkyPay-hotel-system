@@ -36,9 +36,21 @@ public class ReviewController {
             @ApiResponse(responseCode = "404", description = "Review not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<ReviewDTO> getById(@Parameter(description = "ID of the review to be obtained") @PathVariable Long id) {
+    public ResponseEntity<ReviewDTO> getById(
+            @Parameter(description = "ID of the review to be obtained") @PathVariable Long id) {
         ReviewDTO review = reviewService.getReviewById(id);
         return ResponseEntity.ok(review);
+    }
+    @Operation(summary = "Get reviews by room ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the reviews for the room"),
+            @ApiResponse(responseCode = "404", description = "Room not found")
+    })
+    @GetMapping("/room/{roomId}")
+    public ResponseEntity<List<ReviewDTO>> getByRoomId(
+            @Parameter(description = "ID of the room to get reviews for") @PathVariable Long roomId) {
+        List<ReviewDTO> reviews = reviewService.getReviewsByRoomId(roomId);
+        return ResponseEntity.ok(reviews);
     }
 
     @Operation(summary = "Create a new review")

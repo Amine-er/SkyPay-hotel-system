@@ -2,6 +2,9 @@ package ma.errabi.user.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users", schema = "schema_user")
@@ -10,18 +13,19 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
     private String password;
-
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
-
     @Column(unique = true, nullable = false)
     private String email;
-
     private String phone;
     private String address;
+    @Column(name = "profile_picture")
+    private String profilePicture;
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDate createdDate;
 }

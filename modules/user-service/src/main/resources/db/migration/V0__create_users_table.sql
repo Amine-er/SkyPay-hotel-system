@@ -6,5 +6,7 @@ CREATE TABLE IF NOT EXISTS schema_user.users (
         password VARCHAR(255) NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         phone VARCHAR(50),
-        address TEXT
+        address TEXT,
+        profile_picture VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

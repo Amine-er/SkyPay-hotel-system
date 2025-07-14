@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -39,6 +40,13 @@ public class ReviewService {
                 .map(reviewMapper::toDto)
                 .orElseThrow(() -> new IllegalArgumentException("Review not found"));
     }
+
+    @Transactional(readOnly = true)
+    public List<ReviewDTO> getReviewsByRoomId(Long roomId) {
+        log.info("Fetching reviews for room ID: {}", roomId);
+        return reviewRepository.getReviewByRoomId(roomId).stream()
+                .map(reviewMapper::toDto)
+                .collect(Collectors.toList());    }
 
     public ReviewDTO createReview(ReviewDTO dto) {
         return reviewMapper.toDto(reviewRepository.save(reviewMapper.toEntity(dto)));

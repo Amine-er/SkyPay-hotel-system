@@ -2,6 +2,8 @@ package ma.errabi.user;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -16,5 +18,7 @@ public class UserDTO {
     private String email;
     private String phone;
     private String address;
+    private String profilePicture;
+    private LocalDate createdDate;
 }
 

@@ -11,14 +11,12 @@ import java.time.LocalDate;
 @Builder
 public class ReviewDTO {
     private Long id;
-    private String guestName;
-    private String guestLocation;
+    private Long roomId;
+    private Long userId;
     private int rating;
     private LocalDate date;
     private String stayDuration;
     private String comment;
-    private String avatar;
-    private int yearsOnPlatform;
     private Boolean showMore;
     private Boolean hasThumbsUp;
 }
