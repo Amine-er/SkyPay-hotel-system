@@ -6,7 +6,9 @@ import ma.errabi.booking.BookingDTO;
 import ma.errabi.booking.domain.Booking;
 import ma.errabi.booking.mapper.BookingMapper;
 import ma.errabi.booking.repository.BookingRepository;
+import ma.errabi.exception.SystemException;
 import ma.errabi.payment.PaymentDTO;
+import ma.errabi.utils.ErrorConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -31,11 +33,15 @@ public class BookingService {
     public Mono<UUID> makeReservation(Long roomId, LocalDate startDate, LocalDate endDate, PaymentDTO paymentDTO) {
         log.info("Initiating reservation for roomId={}, startDate={}, endDate={}, userId={}",
                 roomId, startDate, endDate, paymentDTO.getUserId());
-
-        return checkRoomAvailability(roomId, startDate, endDate)
-                .flatMap(available -> validateAvailability(available, roomId, startDate, endDate))
-                .flatMap(valid -> validateAndCharge(paymentDTO))
-                .flatMap(valid -> saveBooking(paymentDTO, roomId, startDate, endDate));
+        try {
+            return checkRoomAvailability(roomId, startDate, endDate)
+                    .flatMap(available -> validateAvailability(available, roomId, startDate, endDate))
+                    .flatMap(valid -> validateAndCharge(paymentDTO))
+                    .flatMap(valid -> saveBooking(paymentDTO, roomId, startDate, endDate));
+        } catch (Exception e) {
+            log.error("Unexpected error during reservation: {}", e.getMessage(), e);
+            return Mono.error(new SystemException(ErrorConstants.SERVER_ERROR_DESC));
+        }
     }
 
     private Mono<Boolean> checkRoomAvailability(Long roomId, LocalDate start, LocalDate end) {

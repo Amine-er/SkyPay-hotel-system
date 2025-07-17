@@ -2,10 +2,12 @@ package ma.errabi.user.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ma.errabi.exception.SystemException;
 import ma.errabi.user.UserDTO;
 import ma.errabi.user.domain.User;
 import ma.errabi.user.mapper.UserMapper;
 import ma.errabi.user.repository.UserRepository;
+import ma.errabi.utils.ErrorConstants;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,17 +23,21 @@ public class UserService {
     private final UserMapper userMapper;
 
     public UserDTO createUser(UserDTO userDto) {
-        if (userDto == null) {
-            throw new IllegalArgumentException("UserDto cannot be null");
+        try {
+            if (userDto == null) {
+                throw new IllegalArgumentException("UserDto cannot be null");
+            }
+            if (userRepository.existsByUsername(userDto.getUsername())) {
+                throw new RuntimeException("User with username " + userDto.getUsername() + " already exists");
+            }
+            User user = userMapper.toEntity(userDto);
+            User savedUser = userRepository.save(user);
+            keycloakAdminClientService.createUserInKeycloak(savedUser, savedUser.getPassword());
+            return userMapper.toDto(savedUser);
+        } catch (Exception e) {
+            log.error("Error while creating user: {}. Exception: {}", userDto, e.getMessage(), e);
+            throw new SystemException(ErrorConstants.SERVER_ERROR_DESC);
         }
-        if (userRepository.existsByUsername(userDto.getUsername())) {
-            throw new RuntimeException("User with username " + userDto.getUsername() + " already exists");
-        }
-        User user = userMapper.toEntity(userDto);
-        User savedUser = userRepository.save(user);
-        keycloakAdminClientService.createUserInKeycloak(savedUser, savedUser.getPassword());
-
-        return userMapper.toDto(savedUser);
     }
 
     @Transactional(readOnly = true)

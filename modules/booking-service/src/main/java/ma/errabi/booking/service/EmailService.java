@@ -4,6 +4,8 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ma.errabi.exception.SystemException;
+import ma.errabi.utils.ErrorConstants;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,7 @@ public class EmailService {
             mailSender.send(message);
             log.info("Confirmation email sent to {}", toEmail);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new SystemException(ErrorConstants.SERVER_ERROR_DESC);
         }
     }
 }

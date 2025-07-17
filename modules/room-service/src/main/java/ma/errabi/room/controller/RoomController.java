@@ -33,7 +33,7 @@ public class RoomController {
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Room ID")
     @ApiResponse(responseCode = "200", description = "Successfully fetched room by ID")
     public ResponseEntity<RoomDTO> getRoomById(@PathVariable Long id) {
-        Optional<RoomDTO> room = roomService.getRoomById(id);
+        Optional<RoomDTO> room = Optional.ofNullable(roomService.getRoomById(id));
         return room.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

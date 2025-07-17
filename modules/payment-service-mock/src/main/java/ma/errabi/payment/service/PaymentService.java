@@ -2,10 +2,12 @@ package ma.errabi.payment.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ma.errabi.exception.SystemException;
 import ma.errabi.payment.PaymentDTO;
 import ma.errabi.payment.domain.Payment;
 import ma.errabi.payment.mapper.PaymentMapper;
 import ma.errabi.payment.repository.PaymentRepository;
+import ma.errabi.utils.ErrorConstants;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +24,15 @@ public class PaymentService {
     @Transactional
     public boolean checkAndDeductBalance(PaymentDTO paymentDTO) {
         log.info("Received check balance request for userId: {}, amount: {}", paymentDTO.getUserId(), paymentDTO.getAmount());
+        try {
+            Payment payment = findUserPayment(paymentDTO.getUserId());
+            validateCardDetails(payment, paymentDTO);
+            return processPayment(payment, paymentDTO.getAmount());
+        } catch (Exception e) {
+            log.error("Error processing payment for userId: {} - {}", paymentDTO.getUserId(), e.getMessage(), e);
+            throw new SystemException(ErrorConstants.SERVER_ERROR_DESC);
+        }
 
-        Payment payment = findUserPayment(paymentDTO.getUserId());
-        validateCardDetails(payment, paymentDTO);
-        return processPayment(payment, paymentDTO.getAmount());
     }
 
     private Payment findUserPayment(Long userId) {
