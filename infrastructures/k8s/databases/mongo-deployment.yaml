@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skypay-hotel-tiers-mongo
+  namespace: dev
+  labels:
+      app: skypay-hotel-mongodb
+spec:
+  selector:
+    matchLabels:
+      app: skypay-hotel-tiers-mongo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: skypay-hotel-tiers-mongo
+        type: tiers
+    spec:
+      priorityClassName: high-priority
+      containers:
+        - name: mongo
+          image: mongo:5.0.27
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: rootpass
+            - name: MONGO_INITDB_DATABASE
+              value: bookingdb
+          volumeMounts:
+            - name: mongo-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mongo-init
+          configMap:
+            name: mongo-init-scripts

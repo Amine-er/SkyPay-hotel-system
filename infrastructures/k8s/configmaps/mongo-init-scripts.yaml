@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-init-scripts
+  namespace: dev
+data:
+  init-mongo.js: |
+    db = db.getSiblingDB('bookingdb');
+    db.createUser({
+        user: 'root',
+        pwd: 'rootpass',
+        roles: [{ role: 'readWrite', db: 'bookingdb' }]
+    });

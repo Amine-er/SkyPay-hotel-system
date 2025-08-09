@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: dev
+  labels:
+    app: skypay-hotel-db
+spec:
+  selector:
+    matchLabels:
+      app: skypay-hotel-tiers-postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: skypay-hotel-tiers-postgres
+        type: tiers
+    spec:
+      priorityClassName: high-priority
+      containers:
+        - name: postgres
+          image: postgres:15.13
+          env:
+            - name: POSTGRES_DB
+              value: hotel
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+            - name: postgres-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+        - name: postgres-init
+          configMap:
+            name: postgres-init-scripts

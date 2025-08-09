@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-db-service
+  namespace: dev
+spec:
+  selector:
+    app: skypay-hotel-tiers-mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
