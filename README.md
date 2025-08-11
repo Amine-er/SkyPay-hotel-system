@@ -115,22 +115,20 @@ Below are some UI previews from the hotel reservation system's frontend, built w
 
 Repo : [https://github.com/Amine-er/SkyPay-hotel-system-ui](https://github.com/Amine-er/SkyPay-hotel-system-ui)
 
+- Sign IN
+  
+<img width="1920" height="997" alt="1" src="https://github.com/user-attachments/assets/d1490ece-81db-48f7-b374-265414bf0b2f" />
+
+- Sign UP
+
+<img width="1920" height="1021" alt="2" src="https://github.com/user-attachments/assets/d92424bb-3fe8-448b-bcc8-27389062fe9d" />
+
 - Browse and filter available hotel rooms.
   
 ![UI-1](https://github.com/user-attachments/assets/167030fc-27c7-43d0-9e14-3bfe7079c234)
 
+<img width="1920" height="1032" alt="4" src="https://github.com/user-attachments/assets/b9e369a2-c80e-4dcf-ad99-f8e5e3be38b3" />
+
 - Confirmation popup with reservation reference after a successful payment.
   
 ![UI-2](https://github.com/user-attachments/assets/e845b354-1713-499c-b0c1-98d5ca3e490c)
-
-### Next version :
-In the next version I'll continue the dev with the following fixes :
--  GRPC for synchron communication between microservices
--  Add Unit test using JUnit and mockito
--  Adding keycloak for login using JWT
--  Send email for success reservation with the reference ID
--  Add security filter in the API-Gateway to secure the API
--  Add redis for cache management
--  Change the microservice user-service to customer-service for customer management
--  Add connect the room-service with an object store minaio to fetch room photos
--  Try to deploy it in kubernetes
